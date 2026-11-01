@@ -33,17 +33,9 @@ export default function Home() {
         Inicio
       </h1>
       <p className="mt-6 max-w-2xl text-lg leading-relaxed text-elieco-ink/80">
-        Estructura inicial con App Router, TypeScript y Tailwind. El cliente API apunta al backend
-        Express en <code className="rounded bg-zinc-100 px-1.5 py-0.5 text-sm">/api/health</code> y{" "}
-        <code className="rounded bg-zinc-100 px-1.5 py-0.5 text-sm">/api/contact</code>.
+        Estructura inicial de la aplicación.
       </p>
-      <Suspense
-        fallback={
-          <p className="mt-6 text-sm text-zinc-500">Comprobando conexión con el backend…</p>
-        }
-      >
-        <BackendStatus />
-      </Suspense>
+
     </section>
   );
 }

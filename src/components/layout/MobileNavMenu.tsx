@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { useEffect, useId, useState } from "react";
 import { createPortal } from "react-dom";
-import { MOBILE_DRAWER_NAV } from "@/config/navigation";
+import { MAIN_NAV } from "@/config/navigation";
 
 function MenuIcon() {
   return (
@@ -97,7 +97,7 @@ export function MobileNavMenu() {
           aria-label="Navegación principal"
         >
           <ul>
-            {MOBILE_DRAWER_NAV.map((item, index) => {
+            {MAIN_NAV.map((item, index) => {
               const number = String(index + 1).padStart(2, "0");
               return (
                 <li key={item.href} className="border-b border-elieco-surface/20">
