@@ -25,12 +25,14 @@ async function BackendStatus() {
 
 export default function Home() {
   return (
-    <section className="mx-auto max-w-6xl px-4 py-16 sm:px-6">
-      <p className="text-sm font-medium uppercase tracking-widest text-zinc-500">ELIECO Moda</p>
-      <h1 className="mt-3 max-w-2xl text-4xl font-semibold tracking-tight text-zinc-900 sm:text-5xl">
-        Base del frontend en Next.js
+    <section className="mx-auto max-w-[1440px] px-4 py-16 sm:px-16">
+      <p className="font-sans text-sm font-medium uppercase tracking-widest text-elieco-ink/60">
+        ELIECO Moda
+      </p>
+      <h1 className="mt-3 max-w-2xl font-display text-4xl font-semibold uppercase sm:text-5xl">
+        Inicio
       </h1>
-      <p className="mt-6 max-w-2xl text-lg leading-relaxed text-zinc-600">
+      <p className="mt-6 max-w-2xl text-lg leading-relaxed text-elieco-ink/80">
         Estructura inicial con App Router, TypeScript y Tailwind. El cliente API apunta al backend
         Express en <code className="rounded bg-zinc-100 px-1.5 py-0.5 text-sm">/api/health</code> y{" "}
         <code className="rounded bg-zinc-100 px-1.5 py-0.5 text-sm">/api/contact</code>.
