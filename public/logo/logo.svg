@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 120" role="img" aria-label="ELIECO">
+  <circle cx="60" cy="60" r="58" fill="#fff"/><circle cx="60" cy="60" r="55" fill="none" stroke="#7DA33C" stroke-width="1.5" stroke-dasharray="2 4"/>
+  <path d="M22 70c10-18 22-20 30-14-6 12-16 20-30 14z" fill="#5E9B2F"/>
+  <path d="M24 78c8-8 16-9 22-5-5 7-13 10-22 5z" fill="#8DBB3F"/>
+  <text x="62" y="68" text-anchor="middle" font-family="Georgia,'Times New Roman',serif" font-size="46" fill="#A3792B">E</text>
+  <text x="62" y="86" text-anchor="middle" font-family="Georgia,serif" font-size="13" letter-spacing="1" fill="#315B3B">ELIECO</text>
+  <text x="60" y="30" text-anchor="middle" font-family="Georgia,serif" font-size="6.5" letter-spacing="1" fill="#444">MODA QUE INSPIRA</text>
+  <text x="60" y="104" text-anchor="middle" font-family="Georgia,serif" font-size="6.5" letter-spacing="1" fill="#444">NATURALEZA QUE RESPIRA</text>
+</svg>

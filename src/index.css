@@ -1,0 +1,29 @@
+@import '@fontsource/playfair-display/500.css';
+@import '@fontsource/playfair-display/600.css';
+@import '@fontsource/playfair-display/700.css';
+@import '@fontsource/montserrat/300.css';
+@import '@fontsource/montserrat/400.css';
+@import '@fontsource/montserrat/500.css';
+@import '@fontsource/montserrat/600.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html { scroll-behavior: smooth; }
+  body { @apply bg-[#FBFBFA] font-sans text-ink antialiased overflow-x-hidden; }
+  h1, h2, h3, h4 { @apply font-serif; }
+  :focus-visible { @apply outline outline-2 outline-offset-2 outline-brand; }
+}
+
+@layer components {
+  .container-x { @apply mx-auto w-full max-w-[1200px] px-5 sm:px-8; }
+  .eyebrow { @apply text-[11px] uppercase tracking-wide text-ink/70; }
+  .title-xl { @apply font-serif text-2xl font-semibold uppercase leading-tight text-ink sm:text-3xl; }
+  .btn-primary { @apply inline-flex items-center justify-center gap-2 bg-brand-dark px-6 py-3 text-sm uppercase tracking-wide text-white transition hover:bg-brand disabled:cursor-not-allowed disabled:opacity-60; }
+  .btn-outline { @apply inline-flex items-center justify-center gap-2 border border-white/80 px-6 py-3 text-sm uppercase tracking-wide text-white transition hover:bg-white hover:text-brand-dark; }
+  .spaced { @apply text-[11px] uppercase leading-relaxed tracking-[0.12em]; }
+  /* Campo trampa anti-spam: fuera de pantalla (no type="hidden") */
+  .hp-field { position: absolute; left: -9999px; width: 1px; height: 1px; overflow: hidden; opacity: 0; }
+}
