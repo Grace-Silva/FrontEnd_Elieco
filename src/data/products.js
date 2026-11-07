@@ -22,9 +22,9 @@ export const COLORS = {
 };
 
 const IMG = {
-  vestido: '/images/productos/vestido-negro-dorado.jpg',
-  vestido2: '/images/productos/vestido-negro-dorado-2.jpg',
-  vestido3: '/images/productos/vestido-rosa-perla.jpg',
+  vestido: '/images/productos/vestido-negro-dorado.png',
+  vestido2: '/images/productos/vestido-negro-dorado-2.png',
+  vestido3: '/images/productos/vestido-rosa-perla.png',
   vestido4: '/images/productos/vestido-jardinera-1.png',
   vestido5: '/images/productos/vestido-jardinera-2.png',
   vestido6: '/images/productos/vestido-flecos.png',
