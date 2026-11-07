@@ -42,7 +42,11 @@ function Selector({ id, product }) {
         <div className="mt-3 flex flex-wrap gap-2" role="radiogroup" aria-label="Color">
           {product.colores.map((c) => (
             <button key={c.nombre} type="button" role="radio" aria-checked={color === c.nombre} aria-label={c.nombre} title={c.nombre} onClick={() => setColor(c.nombre)}
-              className={`h-8 w-8 border-2 ${color === c.nombre ? 'border-ink ring-2 ring-white ring-offset-1 ring-offset-ink' : 'border-black/10'}`} style={{ backgroundColor: c.codigo }} />
+              className={`h-8 w-8 border border-black/10 ${
+  color === c.nombre
+    ? 'ring-2 ring-ink ring-offset-2 ring-offset-white'
+    : ''
+}`} style={{ backgroundColor: c.codigo }} />
           ))}
           <button type="button" role="radio" aria-checked={color === 'Personalizado'} onClick={() => setColor('Personalizado')} className={`${sizeBtn(color === 'Personalizado')} uppercase`}>Personalizado</button>
         </div>
