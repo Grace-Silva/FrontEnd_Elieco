@@ -11,7 +11,7 @@ export default function Footer() {
     <footer className="bg-brand-dark text-white">
       <div className="container-x grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-[1.2fr_1fr_1.2fr_1.4fr]">
         <div>
-          <Logo className="h-20 w-20 rounded-full bg-white/90 p-0.5" />
+          <Logo className="h-24 w-24 rounded-full bg-white/90 p-2" />
           <p className="mt-5 max-w-[14rem] font-serif text-sm font-semibold uppercase leading-snug">
             Moda que inspira, naturaleza que respira
           </p>

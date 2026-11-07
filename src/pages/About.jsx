@@ -46,7 +46,7 @@ export default function About() {
     <>
       <section className="relative isolate flex min-h-[260px] items-center justify-center overflow-hidden sm:min-h-[520px]">
         <img
-          src="/images/nosotros/banner.jpg"
+          src="/images/nosotros/banner.jpeg"
           alt="Stand de ELIECO con prendas y plantas"
           className="absolute inset-0 -z-10 h-full w-full object-cover"
         />
@@ -114,7 +114,7 @@ export default function About() {
           </p>
         </div>
         <img
-          src="/images/nosotros/procesos.jpg"
+          src="/images/nosotros/procesos.jpeg"
           alt="Prenda tejida verde de ELIECO en exhibición"
           loading="lazy"
           className="mx-auto aspect-square w-full max-w-sm object-cover"
