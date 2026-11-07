@@ -6,7 +6,7 @@
 
 **Moda que inspira, naturaleza que respira.**
 
-Aplicación web (SPA) de ELIECO, marca colombiana de moda femenina sostenible: catálogo de prendas, detalle de producto con contacto directo por WhatsApp y formulario de contacto conectado a un backend propio.
+Aplicación web de ELIECO, marca colombiana de **moda sostenible femenina bajo pedido**: catálogo, SEO técnico, prerender estático en producción, contacto por WhatsApp y formulario conectado a un backend propio.
 
 ![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=white)
 ![Vite](https://img.shields.io/badge/Vite-8-646CFF?logo=vite&logoColor=white)
@@ -33,6 +33,7 @@ Aplicación web (SPA) de ELIECO, marca colombiana de moda femenina sostenible: c
 - [Gestión de contenido](#gestión-de-contenido)
 - [Sistema de diseño](#sistema-de-diseño)
 - [Accesibilidad](#accesibilidad)
+- [SEO, GEO y rendimiento](#seo-geo-y-rendimiento)
 - [Despliegue](#despliegue)
 - [Estado del proyecto y pendientes](#estado-del-proyecto-y-pendientes)
 - [Licencia](#licencia)
@@ -48,7 +49,8 @@ Aplicación web (SPA) de ELIECO, marca colombiana de moda femenina sostenible: c
 - **Contenido centralizado.** Datos de la empresa, enlaces y preguntas frecuentes se editan en un solo archivo.
 - **Diseño responsive** con paneles de filtros tipo *drawer* en móvil.
 - **Accesibilidad.** Enlace «Saltar al contenido», roles ARIA, estados de foco visibles y mensajes de error anunciados a lectores de pantalla.
-- **SEO básico.** Metadatos en `index.html` y título de documento dinámico por página.
+- **SEO / GEO.** Metadatos por ruta (`react-helmet-async`), Open Graph, Twitter Cards, canonical, JSON-LD (`Organization`, `WebSite`, `Product`, `FAQPage`) y FAQs indexables.
+- **Build con prerender.** En producción, `dist/` incluye HTML estático por ruta (inicio, tienda, nosotros, contacto y cada ficha de producto) más `sitemap.xml` y `robots.txt`.
 
 ## Stack tecnológico
 
@@ -60,11 +62,12 @@ Aplicación web (SPA) de ELIECO, marca colombiana de moda femenina sostenible: c
 | Estilos | [Tailwind CSS 3](https://tailwindcss.com/) + PostCSS + Autoprefixer |
 | Tipografías | [Playfair Display](https://fontsource.org/fonts/playfair-display) y [Montserrat](https://fontsource.org/fonts/montserrat) (autoalojadas con Fontsource) |
 | Iconografía | [Lucide React](https://lucide.dev/) y [React Icons](https://react-icons.github.io/react-icons/) |
+| Metadatos / SEO en cliente | [react-helmet-async](https://github.com/staylor/react-helmet-async) |
 
 ## Requisitos previos
 
 - **Node.js** `^20.19.0` o `>=22.12.0` (requerido por Vite 8)
-- **npm** 10 o superior
+- **pnpm** 9+ (recomendado; el repo incluye `pnpm-lock.yaml`) o **npm** 10+
 - El **backend de ELIECO** (Express + Nodemailer) en ejecución si se quiere probar el formulario de contacto
 
 ## Inicio rápido
@@ -75,27 +78,40 @@ git clone https://github.com/jcarrietab1974/FrontEnd_Elieco.git
 cd FrontEnd_Elieco
 
 # 2. Instalar dependencias
-npm install
+pnpm install
+# npm install
 
-# 3. Configurar variables de entorno
+# 3. Configurar variables de entorno (Linux / macOS / Git Bash)
 cp .env.example .env
-# Edita .env con los valores de tu entorno
 
 # 4. Iniciar el servidor de desarrollo
-npm run dev
+pnpm run dev
 ```
 
-La aplicación quedará disponible en **http://localhost:5173**.
+**Windows (PowerShell)** — paso 3 en lugar de `cp`:
 
-> En Windows (CMD), reemplaza `cp` por `copy`.
+```powershell
+Copy-Item .env.example .env
+```
+
+**Windows (CMD):** `copy .env.example .env`
+
+Edita `.env` según tu entorno (`VITE_SITE_URL`, API local, WhatsApp). Tras cambiar `.env`, reinicia el servidor de desarrollo o vuelve a ejecutar `pnpm run build` en producción.
+
+La aplicación quedará disponible en **http://localhost:5173**.
 
 ## Scripts disponibles
 
 | Comando | Descripción |
 |---|---|
-| `npm run dev` | Inicia el servidor de desarrollo con recarga en caliente (puerto `5173`) |
-| `npm run build` | Genera la versión optimizada de producción en `dist/` |
-| `npm run preview` | Sirve localmente el contenido de `dist/` para validarlo antes de desplegar |
+| `pnpm run dev` | Servidor de desarrollo con recarga en caliente (puerto `5173`) |
+| `pnpm run prebuild` | Genera `public/sitemap.xml` y `public/robots.txt` (también se ejecuta antes de `build`) |
+| `pnpm run build:client` | Bundle del navegador en `dist/` |
+| `pnpm run build:server` | Bundle SSR en `dist/server/` para prerender |
+| `pnpm run build` | `build:client` + `build:server` + prerender de rutas indexables en `dist/` |
+| `pnpm run preview` | Sirve `dist/` localmente antes de desplegar |
+
+Con **npm**, sustituye `pnpm run` por `npm run` (mismos nombres de script).
 
 ## Variables de entorno
 
@@ -103,10 +119,13 @@ Crea un archivo `.env` en la raíz a partir de `.env.example`:
 
 | Variable | Obligatoria | Descripción | Ejemplo |
 |---|:---:|---|---|
-| `VITE_API_URL` | Sí* | URL base del backend, **sin** `/` final. Si no se define, se usa `http://localhost:5000`. | `http://localhost:5000` |
-| `VITE_WHATSAPP_NUMBER` | Sí | Número de WhatsApp de la empresa en formato internacional, solo dígitos (8 a 15). Si falta o es inválido, el botón de contacto del producto se deshabilita y se muestra un aviso. | `573001234567` |
+| `VITE_SITE_URL` | Sí en prod | URL pública del sitio, **sin** `/` final. Canonical, Open Graph, JSON-LD, sitemap y robots. Los scripts de build leen `.env` con `scripts/load-env.mjs`. | `https://eliecomoda.com` |
+| `VITE_API_URL` | Sí* | URL base del backend, **sin** `/` final. Por defecto en desarrollo: `http://localhost:5000`. | `http://localhost:5000` |
+| `VITE_WHATSAPP_NUMBER` | Sí | WhatsApp oficial, solo dígitos (8–15). Sin número válido, los botones de WhatsApp se deshabilitan. | `573005200883` |
 
 \* Imprescindible en producción; en desarrollo tiene un valor por defecto.
+
+> En **producción**, define `VITE_SITE_URL`, `VITE_API_URL` y `VITE_WHATSAPP_NUMBER` en el hosting **antes** de `pnpm run build` (Vite las incrusta en el cliente y en el bundle SSR). Dominio objetivo documentado en `.env.example`: `https://eliecomoda.com` (fallback en código: `https://elieco.com.co`).
 
 > [!WARNING]
 > Las variables con prefijo `VITE_` se incrustan en el código que recibe el navegador y son **públicas**. Nunca almacenes credenciales, tokens ni secretos en ellas.
@@ -129,35 +148,39 @@ El archivo `.env` está excluido del control de versiones mediante `.gitignore`;
 ```text
 FrontEnd_Elieco/
 ├── public/
-│   ├── images/              # Imágenes estáticas (hero, nosotros, productos)
-│   └── logo/                # Logotipo y favicon
+│   ├── images/              # Hero, nosotros, productos
+│   ├── logo/                # logos.png, favicon.png
+│   ├── sitemap.xml          # Generado en prebuild (no editar a mano)
+│   ├── robots.txt           # Generado en prebuild
+│   ├── site.webmanifest
+│   └── _redirects           # Fallback SPA (Netlify)
+├── scripts/
+│   ├── load-env.mjs         # Carga .env en scripts Node
+│   ├── seo-routes.mjs       # Rutas indexables (sitemap + prerender)
+│   ├── generate-sitemap.mjs
+│   └── prerender.mjs
 ├── src/
 │   ├── components/
-│   │   ├── common/          # Acordeón, logo, íconos y enlaces sociales
-│   │   ├── contact/         # Formulario de contacto
-│   │   ├── home/            # Hero de la página de inicio
-│   │   ├── layout/          # Layout, Header, Footer y barra de anuncios
-│   │   └── products/        # Tarjeta, grilla, galería y filtros de producto
+│   │   ├── seo/             # PageMeta, JsonLd
+│   │   ├── common/          # Acordeón, logo, íconos, redes
+│   │   ├── contact/         # Formulario
+│   │   ├── home/            # Hero
+│   │   ├── layout/
+│   │   └── products/
 │   ├── config/
-│   │   └── site.js          # Datos de la empresa, navegación y FAQs
-│   ├── data/
-│   │   └── products.js      # Catálogo y capa de acceso a datos
-│   ├── hooks/
-│   │   └── useDocumentTitle.js
-│   ├── pages/               # Home, Shop, ProductDetail, About, Contact, NotFound
+│   │   ├── site.js          # Empresa, FAQs, copy global
+│   │   └── seo.js           # Títulos/descripciones por ruta
+│   ├── data/products.js
+│   ├── entry-server.jsx     # Render SSR para prerender
+│   ├── pages/
 │   ├── services/
-│   │   ├── api.js           # Cliente HTTP base (timeout y manejo de errores)
-│   │   ├── contactService.js
-│   │   └── whatsappService.js
-│   ├── utils/
-│   │   └── format.js        # Formato de moneda (COP)
-│   ├── App.jsx              # Definición de rutas
-│   ├── index.css            # Tailwind + clases de componentes
-│   └── main.jsx             # Punto de entrada
+│   └── utils/
+│       ├── format.js
+│       ├── seo.js
+│       └── structuredData.js
 ├── .env.example
 ├── index.html
-├── tailwind.config.js
-├── postcss.config.js
+├── vercel.json
 └── vite.config.js
 ```
 
@@ -221,6 +244,8 @@ Content-Type: application/json
 
 ## Integración con WhatsApp
 
+Número oficial en `src/config/site.js` y `VITE_WHATSAPP_NUMBER` (deben coincidir). Mensaje genérico: `whatsappDefaultMessage` en `site.js`.
+
 `src/services/whatsappService.js` implementa *Click to Chat*:
 
 1. Limpia el número configurado (elimina `+`, espacios, guiones y paréntesis).
@@ -236,11 +261,13 @@ Mensaje generado desde la ficha de producto:
 
 | Qué editar | Dónde |
 |---|---|
-| Datos de la empresa (correo, teléfono, redes, dirección), enlaces de ayuda y preguntas frecuentes | `src/config/site.js` |
+| Datos de la empresa, FAQs, textos del footer y mensaje WhatsApp por defecto | `src/config/site.js` |
+| Metadatos SEO por ruta (title, description) | `src/config/seo.js` |
+| Metadatos y JSON-LD por página | `PageMeta` / `JsonLd` en cada `src/pages/*.jsx` |
 | Catálogo de productos (precios, tallas, colores, impacto ambiental) | `src/data/products.js` |
 | Fotografías de producto | `public/images/productos/` |
 | Imágenes de portada y de la sección *Nosotros* | `public/images/hero/` y `public/images/nosotros/` |
-| Logotipo y favicon | `public/logo/` |
+| Logotipo y favicon (`logos.png`, `favicon.png`) | `public/logo/` |
 | Paleta de colores y tipografías | `tailwind.config.js` |
 
 ### Añadir un producto
@@ -293,18 +320,36 @@ Las páginas consumen el catálogo únicamente a través de `getProducts`, `getP
 - Indicador de foco visible mediante `:focus-visible`.
 - Documento en español (`lang="es"`).
 
+## SEO, GEO y rendimiento
+
+**En desarrollo**, cada ruta actualiza `<head>` en el cliente con `PageMeta` (`react-helmet-async`).
+
+**En producción** (`pnpm run build`):
+
+1. `prebuild` → `sitemap.xml` y `robots.txt` en `public/` (URLs desde `VITE_SITE_URL` + catálogo en `products.js`).
+2. Build cliente + bundle SSR (`entry-server.jsx`).
+3. `prerender.mjs` → HTML por ruta en `dist/` (`/`, `/tienda`, `/nosotros`, `/contacto`, `/producto/:id`).
+
+**Rutas no prerenderizadas:** variantes de `/tienda` con query (`?q=`, filtros, `page`); canonical de tienda apunta a `/tienda`.
+
+**Datos estructurados:** `Organization` + `ClothingStore` (layout), `WebSite` + `SearchAction` (inicio), `Product` + breadcrumbs (ficha), `FAQPage` (contacto).
+
+**Nuevo producto:** al añadir un ítem en `products.js`, el siguiente `build` actualiza sitemap y la carpeta `dist/producto/<id>/`.
+
 ## Despliegue
 
-1. Define `VITE_API_URL` y `VITE_WHATSAPP_NUMBER` en el panel de tu proveedor de hosting **antes** de compilar (Vite las incrusta en tiempo de *build*).
+1. En el hosting, define **`VITE_SITE_URL`**, `VITE_API_URL` y `VITE_WHATSAPP_NUMBER` **antes** de compilar.
 2. Genera el build:
 
    ```bash
-   npm run build
+   pnpm run build
    ```
 
-3. Publica el contenido de `dist/` en Netlify, Vercel, Nginx o cualquier hosting estático.
+3. Publica el contenido de `dist/` (incluye HTML prerenderizado, `sitemap.xml`, `robots.txt` y assets).
 
-Al ser una **SPA con rutas del lado del cliente**, el servidor debe redirigir todas las rutas a `index.html`:
+El proyecto incluye `public/_redirects` (Netlify) y `vercel.json` para rutas que no tengan archivo estático. Con prerender, el host suele servir primero `tienda/index.html`, `producto/.../index.html`, etc.
+
+Fallback SPA (si aplica):
 
 <details>
 <summary><strong>Netlify</strong> — <code>public/_redirects</code></summary>
@@ -341,8 +386,9 @@ Recuerda actualizar `FRONTEND_ORIGIN` en el backend con el dominio de producció
 
 - [ ] Reemplazar las **imágenes de demostración** (recortadas de las vistas de referencia, baja resolución) por las fotografías definitivas.
 - [x] Logotipo y favicon originales en `public/logo/logos.png` y `favicon.png`.
-- [ ] Completar la información pendiente en `src/config/site.js`: dirección física y enlace de TikTok.
-- [ ] Reemplazar las tarjetas de ejemplo de «Comunidad ELIECO» por testimonios reales.
+- [ ] Ajustar `VITE_SITE_URL` al dominio final (p. ej. `https://eliecomoda.com`) antes del deploy de producción.
+- [ ] Completar enlace de TikTok en `src/config/site.js` (hoy `#`).
+- [ ] Añadir testimonios reales en la sección Comunidad de *Nosotros* (hoy hay un bloque editorial).
 - [ ] Crear las páginas de políticas enlazadas en el pie de página (envíos, pagos, cambios y devoluciones, términos y privacidad).
 - [ ] Reemplazar el catálogo local por una API de productos.
 
