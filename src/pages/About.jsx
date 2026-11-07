@@ -125,21 +125,35 @@ export default function About() {
         className="bg-[#2A2118] text-white"
         aria-label="Características de ELIECO"
       >
-        <ul className="container-x grid divide-white/15 sm:grid-cols-2 sm:divide-x lg:grid-cols-4">
-          {features.map(({ Icon, title, lines }) => (
-            <li key={title} className="px-4 py-8">
-              <h3 className="flex items-center gap-3 font-serif text-sm font-semibold uppercase">
-                <Icon size={18} aria-hidden="true" />
-                {title}
-              </h3>
-              <ul className="spaced mt-4 list-disc space-y-2 pl-5 text-white/85">
-                {lines.map((l) => (
-                  <li key={l}>{l}</li>
-                ))}
-              </ul>
-            </li>
-          ))}
-        </ul>
+        <ul className="container-x grid grid-cols-1 divide-y divide-white/15 sm:grid-cols-2 sm:divide-y-0 lg:grid-cols-4">
+  {features.map(({ Icon, title, lines }) => (
+    <li
+      key={title}
+      className="
+        px-4 py-8
+        sm:[&:nth-child(odd)]:border-r
+        sm:[&:nth-child(odd)]:border-white/15
+        sm:[&:nth-child(-n+2)]:border-b
+        sm:[&:nth-child(-n+2)]:border-white/15
+        lg:border-b-0
+        lg:border-r-0
+        lg:[&:nth-child(n+2)]:border-l
+        lg:[&:nth-child(n+2)]:border-white/15
+      "
+    >
+      <h3 className="flex items-center gap-3 font-serif text-sm font-semibold uppercase">
+        <Icon size={18} aria-hidden="true" />
+        {title}
+      </h3>
+
+      <ul className="spaced mt-4 list-disc space-y-2 pl-5 text-white/85">
+        {lines.map((l) => (
+          <li key={l}>{l}</li>
+        ))}
+      </ul>
+    </li>
+  ))}
+</ul>
       </section>
 
       <section className="container-x py-16">
