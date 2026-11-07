@@ -7,7 +7,7 @@ export default function ProductCard({ product }) {
     <article className="group">
       <Link to={`/producto/${product.id}`} aria-label={`Ver ${product.nombre}`} className="block">
         <div className="aspect-[3/4] overflow-hidden bg-brand-cream">
-          <img src={product.imagen} alt={product.nombre} loading="lazy" className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+          <img src={product.imagen} alt={product.nombre} loading="lazy" className="h-full w-full object-contain transition duration-500 group-hover:scale-105" />
         </div>
       </Link>
       <div className="mt-3"><ColorSwatches colors={product.colores} size="h-7 w-7" /></div>

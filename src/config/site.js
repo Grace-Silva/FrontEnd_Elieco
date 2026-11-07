@@ -5,12 +5,12 @@ export const site = {
   tagline: 'Moda que inspira, naturaleza que respira',
   freeShippingText: 'Envío gratis a partir de $200.000',
   email: 'eliecomodasostenible@gmail.com',
-  phoneDisplay: '+57 321 274 31 81',
-  phoneTel: '+573212743181',
-  address: 'Dirección física - por definir',
+  phoneDisplay: '+57 300 210 81 34',
+  phoneTel: '+573002108134',
+  address: ' ',
   social: {
     instagram: 'https://www.instagram.com/elieco26/',
-    facebook: 'https://www.facebook.com/pages/ELIECO/167802563269012',
+    facebook: 'https://www.facebook.com/share/1D7GnVwmPh/',
     tiktok: '#',
   },
 };

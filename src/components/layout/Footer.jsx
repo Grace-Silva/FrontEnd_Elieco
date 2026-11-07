@@ -8,10 +8,10 @@ const item = 'text-xs uppercase tracking-wide text-white/90 hover:text-white';
 
 export default function Footer() {
   return (
-    <footer className="bg-[#202020] text-white">
+    <footer className="bg-brand-dark text-white">
       <div className="container-x grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-[1.2fr_1fr_1.2fr_1.4fr]">
         <div>
-          <Logo className="h-14 w-14 rounded-full bg-white/90 p-0.5" />
+          <Logo className="h-20 w-20 rounded-full bg-white/90 p-0.5" />
           <p className="mt-5 max-w-[14rem] font-serif text-sm font-semibold uppercase leading-snug">
             Moda que inspira, naturaleza que respira
           </p>
@@ -26,7 +26,7 @@ export default function Footer() {
           </ul>
         </div>
         <div>
-          <h2 className={heading}>Ayuda</h2>
+          <h2 className={heading}>Legales</h2>
           <ul className="space-y-4">
             {helpLinks.map((l) => (<li key={l}><span className={item}>{l}</span></li>))}
           </ul>
