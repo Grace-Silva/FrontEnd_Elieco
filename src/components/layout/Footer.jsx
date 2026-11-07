@@ -12,8 +12,11 @@ export default function Footer() {
       <div className="container-x grid gap-10 py-14 sm:grid-cols-2 lg:grid-cols-[1.2fr_1fr_1.2fr_1.4fr]">
         <div>
           <Logo className="h-24 w-24 rounded-full bg-white/90 p-2" />
-          <p className="mt-5 max-w-[14rem] font-serif text-sm font-semibold uppercase leading-snug">
-            Moda que inspira, naturaleza que respira
+          <p className="mt-5 max-w-[16rem] text-xs uppercase tracking-wide text-white/90 leading-snug">
+            {site.footerBlurb}
+          </p>
+          <p className="mt-4 max-w-[16rem] font-serif text-sm font-semibold uppercase leading-snug text-white">
+            {site.tagline}
           </p>
         </div>
         <div>
@@ -40,6 +43,10 @@ export default function Footer() {
           </ul>
           <SocialLinks className="mt-6" />
         </div>
+      </div>
+      <div className="border-t border-white/10 py-6 text-center">
+        <p className="text-[11px] uppercase tracking-wide text-white/80">{site.footerClosing}</p>
+        <p className="mt-2 text-[10px] text-white/50">© {new Date().getFullYear()} ELIECO. Todos los derechos reservados.</p>
       </div>
     </footer>
   );

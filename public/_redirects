@@ -1,0 +1,2 @@
+# Netlify: sirve archivos prerenderizados si existen; el resto va al shell SPA.
+/*    /index.html   200

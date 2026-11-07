@@ -4,14 +4,15 @@ import { SlidersHorizontal, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import ProductFilters from '../components/products/ProductFilters.jsx';
 import ProductGrid from '../components/products/ProductGrid.jsx';
 import { getProducts } from '../data/products.js';
-import useDocumentTitle from '../hooks/useDocumentTitle.js';
+import PageMeta from '../components/seo/PageMeta.jsx';
+import { formatPageTitle, routeMeta } from '../config/seo.js';
 
 const PAGE_SIZE = 6;
 const list = (sp, key) => (sp.get(key) ? sp.get(key).split(',').filter(Boolean) : []);
 const norm = (s) => s.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
 
 export default function Shop() {
-  useDocumentTitle('Tienda');
+  const meta = routeMeta.tienda;
   const [sp, setSp] = useSearchParams();
   const [panel, setPanel] = useState(false);
 
@@ -62,8 +63,13 @@ export default function Shop() {
 
   return (
     <section className="container-x py-10 sm:py-14">
+      <PageMeta title={formatPageTitle(meta.title)} description={meta.description} ogType={meta.ogType} />
       <p className="eyebrow">Tienda</p>
-      <h1 className="title-xl mt-2">Viste con propósito</h1>
+      <h1 className="title-xl mt-2">Tienda de moda sostenible bajo pedido</h1>
+      <p className="mt-4 max-w-2xl text-sm text-ink/80">
+        Ropa ecológica femenina hecha en Colombia: explora el catálogo, elige talla y color, o solicita personalización.
+        Las prendas a medida se confirman por WhatsApp con tiempos y abono acordados.
+      </p>
       {q && <p className="mt-3 text-sm text-ink/70">Resultados para “{q}”</p>}
 
       <button type="button" onClick={() => setPanel(true)} className="mt-6 inline-flex items-center gap-2 border border-black/20 px-4 py-2 text-xs uppercase lg:hidden">
@@ -79,7 +85,7 @@ export default function Shop() {
             <div className="absolute inset-y-0 left-0 w-72 max-w-[85%] overflow-y-auto bg-white p-6">
               <button type="button" onClick={() => setPanel(false)} aria-label="Cerrar filtros" className="mb-4 ml-auto block"><X /></button>
               {filterUI}
-              <button type="button" onClick={() => setPanel(false)} className="btn-primary mt-6 w-full">Ver {filtered.length} prendas</button>
+              <button type="button" onClick={() => setPanel(false)} className="btn-primary mt-6 w-full">Ver {filtered.length} prendas sostenibles</button>
             </div>
           </div>
         )}
@@ -89,7 +95,8 @@ export default function Shop() {
             <ProductGrid products={visible} />
           ) : (
             <div className="border border-dashed border-black/20 p-10 text-center">
-              <p className="font-serif text-lg">No encontramos prendas con esos filtros.</p>
+              <p className="font-serif text-lg">No hay prendas con esos filtros.</p>
+              <p className="mt-2 text-sm text-ink/70">Prueba otra talla o categoría, o explora toda la colección de moda sostenible.</p>
               <button type="button" onClick={onClear} className="btn-primary mt-5">Limpiar filtros</button>
             </div>
           )}

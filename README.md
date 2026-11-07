@@ -1,6 +1,6 @@
 <div align="center">
 
-<img src="public/logo/logo.svg" alt="Logo de ELIECO" width="180" />
+<img src="public/logo/logos.png" alt="Logo de ELIECO" width="180" />
 
 # ELIECO · Frontend
 
@@ -340,7 +340,7 @@ Recuerda actualizar `FRONTEND_ORIGIN` en el backend con el dominio de producció
 ## Estado del proyecto y pendientes
 
 - [ ] Reemplazar las **imágenes de demostración** (recortadas de las vistas de referencia, baja resolución) por las fotografías definitivas.
-- [ ] Sustituir `public/logo/logo.svg` (recreación) por el logotipo original.
+- [x] Logotipo y favicon originales en `public/logo/logos.png` y `favicon.png`.
 - [ ] Completar la información pendiente en `src/config/site.js`: dirección física y enlace de TikTok.
 - [ ] Reemplazar las tarjetas de ejemplo de «Comunidad ELIECO» por testimonios reales.
 - [ ] Crear las páginas de políticas enlazadas en el pie de página (envíos, pagos, cambios y devoluciones, términos y privacidad).

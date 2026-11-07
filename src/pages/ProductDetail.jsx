@@ -7,7 +7,11 @@ import { WhatsAppIcon } from '../components/common/SocialIcons.jsx';
 import { getProductById, getRelated } from '../data/products.js';
 import { formatCOP } from '../utils/format.js';
 import { openWhatsapp, isWhatsappConfigured, buildProductMessage } from '../services/whatsappService.js';
-import useDocumentTitle from '../hooks/useDocumentTitle.js';
+import PageMeta from '../components/seo/PageMeta.jsx';
+import JsonLd from '../components/seo/JsonLd.jsx';
+import { productMeta } from '../config/seo.js';
+import { absoluteUrl } from '../utils/seo.js';
+import { breadcrumbSchema, productSchema } from '../utils/structuredData.js';
 import NotFound from './NotFound.jsx';
 
 function Selector({ id, product }) {
@@ -67,11 +71,24 @@ function Selector({ id, product }) {
 export default function ProductDetail() {
   const { id } = useParams();
   const product = getProductById(id);
-  useDocumentTitle(product?.nombre ?? 'Producto no encontrado');
   if (!product) return <NotFound product />;
+
+  const meta = productMeta(product);
+  const breadcrumbs = breadcrumbSchema([
+    { name: 'Inicio', url: absoluteUrl('/') },
+    { name: 'Tienda', url: absoluteUrl('/tienda') },
+    { name: product.nombre, url: absoluteUrl(`/producto/${product.id}`) },
+  ]);
 
   return (
     <>
+      <PageMeta
+        title={meta.title}
+        description={meta.description}
+        ogType={meta.ogType ?? 'website'}
+        ogImage={meta.ogImage}
+      />
+      <JsonLd data={[productSchema(product), breadcrumbs]} />
       <section className="container-x py-10">
         <Link to="/tienda" className="inline-flex items-center gap-2 text-[11px] uppercase tracking-wide hover:text-brand"><ArrowLeft size={14} /> Volver a la tienda</Link>
         <h1 className="title-xl mt-4">{product.nombre}</h1>

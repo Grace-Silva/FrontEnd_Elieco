@@ -3,6 +3,8 @@ import { Outlet, useLocation } from 'react-router-dom';
 import AnnouncementBar from './AnnouncementBar.jsx';
 import Header from './Header.jsx';
 import Footer from './Footer.jsx';
+import JsonLd from '../seo/JsonLd.jsx';
+import { organizationSchema } from '../../utils/structuredData.js';
 
 export default function Layout() {
   const { pathname } = useLocation();
@@ -13,6 +15,7 @@ export default function Layout() {
 
   return (
     <div className="flex min-h-screen flex-col">
+      <JsonLd data={organizationSchema()} />
       <a href="#contenido" className="sr-only focus:not-sr-only focus:absolute focus:z-50 focus:bg-white focus:p-3">Saltar al contenido</a>
       <AnnouncementBar />
       <Header />

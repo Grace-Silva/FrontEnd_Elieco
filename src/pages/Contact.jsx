@@ -3,21 +3,30 @@ import ContactForm from '../components/contact/ContactForm.jsx';
 import Accordion from '../components/common/Accordion.jsx';
 import SocialLinks from '../components/common/SocialLinks.jsx';
 import { WhatsAppIcon } from '../components/common/SocialIcons.jsx';
-import { site, faqs } from '../config/site.js';
+import { site, faqs, whatsappDefaultMessage } from '../config/site.js';
 import { buildWhatsappLink } from '../services/whatsappService.js';
-import useDocumentTitle from '../hooks/useDocumentTitle.js';
+import PageMeta from '../components/seo/PageMeta.jsx';
+import JsonLd from '../components/seo/JsonLd.jsx';
+import { formatPageTitle, routeMeta } from '../config/seo.js';
+import { faqPageSchema } from '../utils/structuredData.js';
 
 const h = 'font-serif text-sm font-semibold uppercase';
 const row = 'mt-2 flex items-center gap-3 text-xs tracking-wide hover:text-brand';
 
 export default function Contact() {
-  useDocumentTitle('Contacto');
-  const wa = buildWhatsappLink('Hola, quiero más información sobre ELIECO.');
+  const meta = routeMeta.contacto;
+  const wa = buildWhatsappLink(whatsappDefaultMessage);
   return (
     <>
+      <PageMeta title={formatPageTitle(meta.title)} description={meta.description} ogType={meta.ogType} />
+      <JsonLd data={faqPageSchema(faqs)} />
       <section className="container-x py-10 sm:py-14">
         <p className="eyebrow">Contacto</p>
-        <h1 className="title-xl mt-2">¿Tienes alguna duda, pedido o idea maravillosa?</h1>
+        <h1 className="title-xl mt-2">Asesoría para compras, tallas y prendas personalizadas</h1>
+        <p className="mt-4 max-w-2xl text-sm text-ink/80">
+          Escríbenos si quieres cotizar una prenda bajo pedido, resolver dudas sobre materiales o coordinar envío a tu
+          ciudad en Colombia.
+        </p>
         <div className="mt-10 grid gap-10 lg:grid-cols-[1fr_1.9fr]">
           <div className="space-y-7 px-1 lg:px-5">
             <div><h2 className={h}>Correo</h2><a href={`mailto:${site.email}`} className={`${row} break-all uppercase`}><Mail size={15} />{site.email}</a></div>
@@ -37,9 +46,17 @@ export default function Contact() {
       </section>
 
       <section className="container-x pb-20 pt-6">
-        <p className="eyebrow">Sostenibilidad</p>
-        <h2 className="title-xl mt-2">Procesos responsables</h2>
+        <p className="eyebrow">Ayuda</p>
+        <h2 className="title-xl mt-2">Preguntas frecuentes</h2>
         <div className="mt-8 lg:max-w-[88%]"><Accordion items={faqs} /></div>
+        <section className="sr-only" aria-label="Preguntas frecuentes completas">
+          {faqs.map(({ q, a }) => (
+            <article key={q}>
+              <h3>{q}</h3>
+              <p>{a}</p>
+            </article>
+          ))}
+        </section>
       </section>
     </>
   );
